@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /stuff/
-title: poetry
+title: stuff
 description: My stuff.
 ---
 
