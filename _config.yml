@@ -21,7 +21,7 @@ paginate_path: "/home/page:num/"
 collections:
   portfolio:
     output: true
-    permalink: /portfolio/:path/
+    #permalink: /portfolio/:path/
   stuff:
     output: true
-    permalink: /stuff/:path/
+  #  permalink: /stuff/:path/
