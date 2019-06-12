@@ -1,3 +1,10 @@
+---
+layout: post
+title: Project
+description: a project with no image
+img:
+---
+
 
 # Predicting Premier League match results based on historic data
 
@@ -45,9 +52,9 @@ Where $N_{C} =1$ for a correct prediction, and $N_{total}$ is the total number o
 
 # 2 Data Preprocessing & Exploration
 
-We sourced premier league match results from football-data.co.uk, the website has downloadable csv files for each season of the premier league from 1993 [3]. We used data from season 2000-2001 onwards as this data had the most consistancy  in features throughout. 
+We sourced premier league match results from football-data.co.uk, the website has downloadable csv files for each season of the premier league from 1993 [3]. We used data from season 2000-2001 onwards as this data had the most consistancy  in features throughout.
 
-On first inspection, we see a number of features. These features describe the events that occur in the game, such as total goals by the home side (FTHG). The list below describes what each of these mean. 
+On first inspection, we see a number of features. These features describe the events that occur in the game, such as total goals by the home side (FTHG). The list below describes what each of these mean.
 
 ```
 Div = League Division
@@ -111,16 +118,16 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):  
     2  E0  19/08/00  Coventry  Middlesbrough     1     3   A     1     1   D   6   
     3  E0  19/08/00     Derby    Southampton     2     2   D     1     2   A   6   
     4  E0  19/08/00     Leeds        Everton     2     0   H     2     0   H  17   
-    
+
        AS  HST  AST  HHW  AHW  HC  AC  HF  AF  HO  AO  HY  AY  HR  AR  
     0   8   14    4    2    1   6   6  13  12   8   6   1   2   0   0  
     1  12   10    5    1    0   7   7  19  14   2   3   1   2   0   0  
     2  16    3    9    0    1   8   4  15  21   1   3   5   3   1   0  
     3  13    4    6    0    0   5   8  11  13   0   2   1   1   0   0  
     4  12    8    6    0    0   6   4  21  20   6   1   1   3   0   0  
-    
 
-We constructed basic statistics on the data, the table below shows this in detail. 
+
+We constructed basic statistics on the data, the table below shows this in detail.
 
 
 ```python
@@ -141,7 +148,7 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):  
     50%      1.000000    1.000000    0.000000    0.000000   12.000000    9.000000   
     75%      2.000000    2.000000    1.000000    1.000000   16.000000   12.000000   
     max      6.000000    4.000000    5.000000    4.000000   33.000000   24.000000   
-    
+
                   HST         AST         HHW         AHW          HC          AC  \
     count  380.000000  380.000000  380.000000  380.000000  380.000000  380.000000   
     mean     6.163158    4.531579    0.381579    0.223684    6.289474    4.647368   
@@ -151,7 +158,7 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):  
     50%      6.000000    4.000000    0.000000    0.000000    6.000000    4.000000   
     75%      8.000000    6.000000    1.000000    0.000000    8.000000    6.000000   
     max     19.000000   14.000000    4.000000    2.000000   17.000000   14.000000   
-    
+
                    HF          AF          HO          AO          HY          AY  \
     count  380.000000  380.000000  380.000000  380.000000  380.000000  380.000000   
     mean    12.978947   13.944737    3.628947    3.728947    1.347368    1.794737   
@@ -161,7 +168,7 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):  
     50%     13.000000   13.000000    3.000000    3.000000    1.000000    2.000000   
     75%     16.000000   17.000000    5.000000    5.000000    2.000000    3.000000   
     max     25.000000   28.000000   14.000000   17.000000    7.000000    7.000000   
-    
+
                    HR          AR  
     count  380.000000  380.000000  
     mean     0.084211    0.081579  
@@ -171,7 +178,7 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):  
     50%      0.000000    0.000000  
     75%      0.000000    0.000000  
     max      2.000000    2.000000  
-    
+
 
 What we see is that there are 380 games in total in a season. Other interesting things to note are the difference between away and home games, from first glance it shows favourable statistics are higher for home games. In the below plot, we see that home side values are higher in features that are associated with wins such as 'Shots on Target' and lower in features that associate with being under pressure, such as 'Fouls'. What this shows is that there is reason to consider home and away as a potential feature, and so we will seperate features based on this.
 
@@ -212,7 +219,7 @@ plt.show()
 
 The raw format of the data is not suitable to predict anything. We need to consider that features must be of historic values compared to targets and our framework must be flexible to allow us to select the number of games to lookback on. In this project we implement the following
 
-1) A queryable database of: 
+1) A queryable database of:
 * games, keyed on season and the team.
 * Season long statistics that will be used as fixed team attributes
 
@@ -221,7 +228,7 @@ The raw format of the data is not suitable to predict anything. We need to consi
 
 
 ### Building the database
-We take the raw data format and load it into multiple Pandas' dataframe keyed by the season. 
+We take the raw data format and load it into multiple Pandas' dataframe keyed by the season.
 
 
 ```python
@@ -236,14 +243,14 @@ raw_season_data={}
 ## load in raw csvs
 for i,j in enumerate(os.listdir()):
     raw_season_data[i]= loadIntoDict(j)
-    
+
 print("The following seasons have been loaded in raw format (in yy format) :")    
 print(list(raw_season_data.keys()))
 ```
 
     The following seasons have been loaded in raw format (in yy format) :
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-    
+
 
 Next, we build the match 'snapshot' table. For each season, each team will have their matches, whether home or away recorded with the datapoints relating to those games available as a seasonal snapshot. We also record match results as a feature, and one-hot encode them into Win, Lose, Draw features. We see that we can query this database for each team and season via the command at the end: `snapshots[10]['Liverpool']`
 
@@ -347,7 +354,7 @@ def create_away_dict(table,matchNum):
         matchDict.update({'Win':0,'Draw':1, 'Lose':0})
     return pd.DataFrame(matchDict,index=[matchNum,])
 
-# The function below runs through each season, and each distinct team for that season and 
+# The function below runs through each season, and each distinct team for that season and
 # uses the above functions to build the snapshot database
 
 def build_snapshot_table(raw_data,snapshots):
@@ -383,24 +390,24 @@ print((snapshots[10]['Liverpool']).head(3))
     1                  5        6               3  13/08/11     1            12   
     2                 10        5               9  20/08/11     0            11   
     3                 12       12               6  27/08/11     0             7   
-    
+
        FoulsCommited  Goals  GoalsConceded  HTGoals   ...   ShotsAgainst  \
     1             17      1              1        1   ...             15   
     2              6      2              0        0   ...             10   
     3              5      3              1        1   ...              7   
-    
+
        ShotsAgainstOnTarget  ShotsOnTarget  TeamAgainst  Win  YCards  \
     1                     6              4   Sunderland    0       4   
     2                     6              8      Arsenal    1       2   
     3                     4              9       Bolton    1       0   
-    
+
        YCardsAgainst  ground match  result  
     1              4       H     1       D  
     2              2       A     2       A  
     3              2       H     3       H  
-    
+
     [3 rows x 25 columns]
-    
+
 
 Using the database we created, we can build another queryable database featuring season-wide statistics, aggregated over the whole season - with such statistics like "Points" "Goal Difference" "Red Cards" etc.
 
@@ -475,35 +482,35 @@ print(seasonTable[10].keys())
     Arsenal         7  25     74            49      10      70       4   
     Tottenham       9  25     66            41       9      69       3   
     Newcastle       8   5     56            51      11      65       2   
-    
+
                       Team  Wins  YCards    ...     home_avg_BigChancesCreated  \
     Man City      Man City    28      56    ...                      14.210526   
     Man United  Man United    28      51    ...                      14.736842   
     Arsenal        Arsenal    21      67    ...                      11.789474   
     Tottenham    Tottenham    20      45    ...                      13.105263   
     Newcastle    Newcastle    19      67    ...                       9.210526   
-    
+
                 home_avg_Corners  home_avg_CornersAgaints  home_avg_Fouls  \
     Man City            8.052632                 4.000000        9.315789   
     Man United          8.894737                 3.421053       10.052632   
     Arsenal             8.315789                 3.526316       10.052632   
     Tottenham           7.736842                 3.526316        8.421053   
     Newcastle           5.578947                 3.789474        9.736842   
-    
+
                 home_avg_FoulsAgainst  home_avg_Goals  home_avg_GoalsAgainst  \
     Man City                 8.157895        2.894737               0.631579   
     Man United               9.842105        2.736842               1.000000   
     Arsenal                 11.684211        2.052632               0.894737   
     Tottenham               10.157895        2.052632               0.894737   
     Newcastle               12.210526        1.526316               0.894737   
-    
+
                 home_avg_Shots  home_avg_ShotsAgainst  Position  
     Man City         18.578947               7.684211       1.0  
     Man United       19.473684              11.894737       2.0  
     Arsenal          16.842105               7.842105       3.0  
     Tottenham        18.526316               9.789474       4.0  
     Newcastle        13.842105              10.947368       5.0  
-    
+
     [5 rows x 54 columns]
     These are the seasonal features available:
     Index(['Draws', 'GD', 'Goals', 'GoalsAgainst', 'Losses', 'Points', 'RCards',
@@ -521,9 +528,9 @@ print(seasonTable[10].keys())
            'home_avg_FoulsAgainst', 'home_avg_Goals', 'home_avg_GoalsAgainst',
            'home_avg_Shots', 'home_avg_ShotsAgainst', 'Position'],
           dtype='object')
-    
 
-With the databases made ready, we built the proper feature/target list by querying the databases. We considered a very large number of potential features. Features are broken down by the relevent data relating to the home sides historical statistics and the away sides. The below tables show this for the home side (HS). the exact same features were extracted for the away side (AS). 
+
+With the databases made ready, we built the proper feature/target list by querying the databases. We considered a very large number of potential features. Features are broken down by the relevent data relating to the home sides historical statistics and the away sides. The below tables show this for the home side (HS). the exact same features were extracted for the away side (AS).
 
 
 |   Previous HS game   | Previous X HS games (5 by default) | Previous X HS-home games (5 by default) |  HS Previous Season Data  |   Previous Season Home Record  |   HS vs Away Team Record  |
@@ -706,12 +713,12 @@ def get_targets(dataDict):
 
 ```
 
-Omitting the first season$^1$, we went through every match, pinpointed the match number/date/homeside/awayside  and ran queries against the database based on these parameters, we tallied all the queries and fed them through the tools described above to get the relevent features. 
+Omitting the first season$^1$, we went through every match, pinpointed the match number/date/homeside/awayside  and ran queries against the database based on these parameters, we tallied all the queries and fed them through the tools described above to get the relevent features.
 
 There are three things to note:
 
 * Between seasons, 3 teams leave the premier league into the lower division (Positions 18,19 and 20) and 3 teams come up and join the premir league. This means that lookback into previous seasons will not be available for those teams. To combat this, we made the assumption (perhaps naive) that statistics for new teams could be taken from teams from the previous season based on position. For example if a team has newly been promoted, we made the assumption that the previous season they would have similar enough statistics for the 15th or 16th position.
-* 'Previous game' features cannot be obtained if the team has not played a game yet. To combat this we made these values = 0. 
+* 'Previous game' features cannot be obtained if the team has not played a game yet. To combat this we made these values = 0.
 * Because aggregations require previous games to have been played, data for the 1st home or away matches often resulted in NANs. To combat this we saved two datasets, one which removed NANs and one which filled them with 0.
 
 <sup>1 Omit the first season because there are no previous seasons to use as features<sup>
@@ -835,7 +842,7 @@ print("Total number of records after dropping NANS: {}".format(len(complete_feat
     Total number of records: 6025
     Total number of Features: 156
     Total number of records after dropping NANS: 4385
-    
+
 
 We see that our total number of features is indeed very high, especially considering that we have only 6025 samples to train with. There is a liklihood that this may fall into the curse of dimenisonality [4]. Essentially, feature space increases rapidly with every new dimension added, and with this the number of samples required to create models with statistical integritiy increases. To combat this, we employ feature selectio, outlined in the next section.
 
@@ -853,7 +860,7 @@ def random_guess(rows):
     return res
 ```
 
-# 4 Methodology 
+# 4 Methodology
 ## Decision Tree Classifier
 The first ML algorithm we use is a Decision Tree classifier. Decision trees are a non-parametric modelling method, whereby data is split at a particular node based on a particular metric inequality or rule. These nodes branch out into further nodes until a target (the classification) is reached, this is called a leaf. The rules/inequalities are decided based on different measures depending on the algorithm used. In this case we use the default CART algorithm from `scikit-learn` which applies the 'gini impurity' as a measure of how good a split is.
 
@@ -934,7 +941,7 @@ cls.get_params()
 ```
 
     Parameter 'max_depth' is 18 for the optimal model.
-    
+
 
 
 
@@ -961,7 +968,7 @@ cls.fit(X_train, y_train)
 Y_pred = cls.predict(X_test)
 y_pred_prob = cls.predict_proba(X_test)
 
-print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred))) 
+print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred)))
 
 models_dict={}
 models_dict.update({'DT1':accuracy_score(y_test,Y_pred)})
@@ -971,7 +978,7 @@ from sklearn.tree import export_graphviz
 # Export as dot file
 cls = DecisionTreeClassifier(max_depth=3)
 cls.fit(X_train, y_train)
-export_graphviz(cls, out_file='tree.dot', 
+export_graphviz(cls, out_file='tree.dot',
                 feature_names = X_train.keys(),
                 class_names = y_train.keys(),
                 rounded = True, proportion = False,filled = True)
@@ -980,9 +987,9 @@ export_graphviz(cls, out_file='tree.dot',
 ```
 
     Accuracy score for the optimal model is 0.41112123974475845.
-    
 
-We can see in the above, that our intial accuracy is 0.411, around 41% - which is fair for a first model. 
+
+We can see in the above, that our intial accuracy is 0.411, around 41% - which is fair for a first model.
 
 
 As a visualisation tool, we can see the first 3 breanches of a potential decision tree.
@@ -994,27 +1001,27 @@ As a visualisation tool, we can see the first 3 breanches of a potential decisio
 
 
 ### Random Guess
-We can compare the decision tree model with the random guess. From the below results, we see that this is 0.3 which is probably within the error of range of the expected value 1/3. 
+We can compare the decision tree model with the random guess. From the below results, we see that this is 0.3 which is probably within the error of range of the expected value 1/3.
 
 
 ```python
 y_pred = random_guess(len(y_test))
-print("Accuracy score for the random guess model is {}.".format(accuracy_score(y_test,y_pred))) 
+print("Accuracy score for the random guess model is {}.".format(accuracy_score(y_test,y_pred)))
 
 
 models_dict.update({'Random_Guess':accuracy_score(y_test,y_pred)})
 ```
 
     Accuracy score for the random guess model is 0.3017319963536919.
-    
+
 
 ## Features Selection
 
-A large part of building sound machine learning software is making sure the feature inputs are optimised. As the number of features increase, so does the need for more samples - we will often find that under these circumstances, models will overfit the data and prediction power in the real world reduces. To combat this we need to reduce the total number of features in the smartest way. In filtering feature selection methods, this can be done by removing redundancies or by keeping the most correlated datapoints. 
+A large part of building sound machine learning software is making sure the feature inputs are optimised. As the number of features increase, so does the need for more samples - we will often find that under these circumstances, models will overfit the data and prediction power in the real world reduces. To combat this we need to reduce the total number of features in the smartest way. In filtering feature selection methods, this can be done by removing redundancies or by keeping the most correlated datapoints.
 
-We employ the latter by appylying a Mutual Information scoring metric to the data and the target, and choosing the top 50 features. 
+We employ the latter by appylying a Mutual Information scoring metric to the data and the target, and choosing the top 50 features.
 
-The mutual information determines how similar the joint distribution $p(x,y)$ is to the products of the singular distribution $p(x)p(y)$. It is given by 
+The mutual information determines how similar the joint distribution $p(x,y)$ is to the products of the singular distribution $p(x)p(y)$. It is given by
 
 $$I(X;Y)={∫X} {∫Y} *  p(x,y)\log{\frac{p(x,y)}{p(x)p(y)}}dxdy$$
 
@@ -1090,7 +1097,7 @@ print(featureScores.nlargest(50,'Score'))
     74                       hs_any_avgPoints  0.023286
     120       hs_home_season_avg_FoulsAgainst  0.022759
     37             as_away_season_avg_Corners  0.022243
-    
+
 
 ### Decision Tree 2
 We followed similar steps as to before but now with the filtered features.
@@ -1109,7 +1116,7 @@ cls = DecisionTreeClassifier(max_depth=cls.get_params()['max_depth'])
 cls.fit(X_train, y_train)
 Y_pred = cls.predict(X_test)
 
-print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred))) 
+print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred)))
 
 models_dict.update({'DT2':accuracy_score(y_test,Y_pred)})
 
@@ -1117,7 +1124,7 @@ models_dict.update({'DT2':accuracy_score(y_test,Y_pred)})
 
     Parameter 'max_depth' is 40 for the optimal model.
     Accuracy score for the optimal model is 0.4247948951686418.
-    
+
 
 ### Decision Tree 3
 We follow the same method but this time reducing the total number of features to 25
@@ -1145,7 +1152,7 @@ cls = DecisionTreeClassifier(max_depth=cls.get_params()['max_depth'])
 cls.fit(X_train, y_train)
 Y_pred = cls.predict(X_test)
 
-print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred))) 
+print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred)))
 
 models_dict.update({'DT3':accuracy_score(y_test,Y_pred)})
 
@@ -1153,11 +1160,11 @@ models_dict.update({'DT3':accuracy_score(y_test,Y_pred)})
 
     Parameter 'max_depth' is 25 for the optimal model.
     Accuracy score for the optimal model is 0.41567912488605285.
-    
 
-We see that all three of these produce similar accuracy results. 
 
-Next we looked at reducing the redundancy in the data (instead of filtering for correlation). We employed the use of Principle Component Analysis 
+We see that all three of these produce similar accuracy results.
+
+Next we looked at reducing the redundancy in the data (instead of filtering for correlation). We employed the use of Principle Component Analysis
 ## Principle Component Analysis
 
 Principle Component Analysis (PCA) is a data modelling technique, which breaks down the dimensions of the present data into its principle components. Data is projected into the principle axis in a manner which would retain the variance along that axis. This is generally done by finding the vectors which point (in order) to the direction of largest variance.
@@ -1173,7 +1180,7 @@ $\sigma$ is the covariance matrix of $x$, and $u_i$ and $u_j$ are the $i^{th}$ a
 <img src="img/PCA.png" alt="drawing" width="600"/>
 *PCA Example with 2 Dimensions*
 
-After the components have been found, PCA is 'applied' via a transformation via rotation to the new axis. We can then pick the number of principle components to use up to `n_components` as our new feature set. There is a debate about how to select `n_components` but a popular method is to choose based on what features will preseve an (arbitary) percentage of variance, in our case 99%. This is done and shown below [9]: 
+After the components have been found, PCA is 'applied' via a transformation via rotation to the new axis. We can then pick the number of principle components to use up to `n_components` as our new feature set. There is a debate about how to select `n_components` but a popular method is to choose based on what features will preseve an (arbitary) percentage of variance, in our case 99%. This is done and shown below [9]:
 
 
 ```python
@@ -1209,9 +1216,9 @@ print("Best n_components is "+ str(n_components))
 
 
     Best n_components is 95
-    
 
-### Decision Tree 4 
+
+### Decision Tree 4
 We use the PCA method to transform our data and apply it to the Decision Tree Classifier
 
 
@@ -1231,7 +1238,7 @@ cls = DecisionTreeClassifier(max_depth=cls.get_params()['max_depth'])
 cls.fit(X_train, y_train)
 Y_pred = cls.predict(X_test)
 
-print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred))) 
+print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred)))
 
 models_dict.update({'DT4':accuracy_score(y_test,Y_pred)})
 
@@ -1239,7 +1246,7 @@ models_dict.update({'DT4':accuracy_score(y_test,Y_pred)})
 
     Parameter 'max_depth' is 17 for the optimal model.
     Accuracy score for the optimal model is 0.4639927073837739.
-    
+
 
 We see that the Model has performed slightly better than previous models at 46%, however this could be within range of error.
 
@@ -1256,19 +1263,19 @@ Simply, Random forests or are an ensemble learning method for classification tha
 classifier = RandomForestClassifier(max_depth=cls.get_params()['max_depth'])
 classifier.fit(X_train_pca,y_train)
 Y_pred = classifier.predict(X_test_pca)
-print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred))) 
+print("Accuracy score for the optimal model is {}.".format(accuracy_score(y_test,Y_pred)))
 
 models_dict.update({'RF1':accuracy_score(y_test,Y_pred)})
 ```
 
     Accuracy score for the optimal model is 0.25979945305378305.
-    
 
-We see that for the random forests classifier under PCA features, performance is in-fact worse than the random guess. 
+
+We see that for the random forests classifier under PCA features, performance is in-fact worse than the random guess.
 
 ## Deep Neural Networks
 
-In order to increase model accuracy and predictive power, we employed the use of Artificial Neural Networks (ANNs) to model our match data. Neural Networks, as their name suggest are the computational approach to machine learning that is loosely influenced by the mechanisms in the vertebrate brains.  Neurons are connected at nodes, with the input transformed by the node into an output, similar to biological axons. 
+In order to increase model accuracy and predictive power, we employed the use of Artificial Neural Networks (ANNs) to model our match data. Neural Networks, as their name suggest are the computational approach to machine learning that is loosely influenced by the mechanisms in the vertebrate brains.  Neurons are connected at nodes, with the input transformed by the node into an output, similar to biological axons.
 
 A node/ perceptron takes a set of input data, applies an intrinsic set of weights to produce a linear combination, and the resultant combination is operated by an activation function which produces a singular output. Multiple nodes in a single layer produce multiple outputs (through operations with different parameters), these outputs will be the inputs of the next layer.
 
@@ -1281,7 +1288,7 @@ where $\omega_i$ is the parameter or model weight of the feature $x_i$. $K$ is t
 A network
 consists of several layers of these neurons, where connections go from one layer to
 the other. The first layer is the input layer, the last layer is the output, and all
-the layers in between are hidden layers. The image below shows a basic visual of this. 
+the layers in between are hidden layers. The image below shows a basic visual of this.
 
 <img src="img/ANN.PNG" alt="ANN_0" width="600"/>
 
@@ -1298,9 +1305,9 @@ from keras.layers import Dense, Dropout, Activation
 ```
 
     Using TensorFlow backend.
-    
 
-Our first Neural Network architecture is detailed below. We use dropout layers between the hidden layers. These randomly inhibit nodes to reduce overfitting. 
+
+Our first Neural Network architecture is detailed below. We use dropout layers between the hidden layers. These randomly inhibit nodes to reduce overfitting.
 
 <img src="img/ANN_1.PNG" alt="ANN" width="600"/>
 
@@ -1363,10 +1370,10 @@ models_dict.update({'DNN_1':score[1]})
 ```
 
     Accuracy of the model is :  0.5493775937072469
-    
+
 
 ### Deep Neural Network 2 & 3
-We followed the same pattern as with the Decision Tree, we tried to model our data after feature selection, We also use the zero filled NAN data from this point to further increase the total number of datapoints.  this is shown below: 
+We followed the same pattern as with the Decision Tree, we tried to model our data after feature selection, We also use the zero filled NAN data from this point to further increase the total number of datapoints.  this is shown below:
 
 
 ```python
@@ -1451,14 +1458,14 @@ models_dict.update({'DNN_2':score[1]})
     Trainable params: 4,003
     Non-trainable params: 0
     _________________________________________________________________
-    
+
 
 
 ![png](output_67_1.png)
 
 
     Accuracy:  0.5510373447445913
-    
+
 
 We see that accuracy is also around 55%, so no major accuracy increase from above. Next is PCA:
 
@@ -1545,14 +1552,14 @@ models_dict.update({'DNN_3':score[1]})
     Non-trainable params: 0
     _________________________________________________________________
     Accuracy:  0.4834663630075574
-    
+
 
 
 ![png](output_69_1.png)
 
 
     Accuracy:  0.4834663630075574
-    
+
 
 We see that with the PCA regime, clear overfitting occurs early on -- if we re-fit our model with the number of epochs being where the two Losses diverge, we can see that the final accruacy is 54%, similar to previous results.
 
@@ -1610,29 +1617,29 @@ models_dict.update({'DNN_3':score[1]})
     Non-trainable params: 0
     _________________________________________________________________
     Accuracy:  0.5370581528275967
-    
+
 
 # 5 Results & Conclusion
 
 Below we have plotted the accuracy scores of all the different models we have chosen and refined. What we are able to see is that the accuracies for the models respectively fall within some error range from the following:
 
-* Initial DNN = 0.54937759 
+* Initial DNN = 0.54937759
 * DNN with MI Feature selection = 0.55103734
-* DNN with PCA feature selection 0.53705815 
-* Initial Decision Tree = 0.41112124 
+* DNN with PCA feature selection 0.53705815
+* Initial Decision Tree = 0.41112124
 * Decision Tree with MI feature selection(25 features) = 0.4247949
 * Decision Tree with MI  feature selection (50 features) = 0.41567912
-* Decision Tree with PCA feature selection =  0.46399271 
+* Decision Tree with PCA feature selection =  0.46399271
 * Random Forests Classifier = 0.25979945
 * Random Guessing  = 0.301732  
 
-Clearly, Neural networks produced the best predictive power for predicting match outcomes, and Decision Trees come second. Both performed better than random guessing, which is a positive result. 
+Clearly, Neural networks produced the best predictive power for predicting match outcomes, and Decision Trees come second. Both performed better than random guessing, which is a positive result.
 
-It seems as there was not enough evidence to show that any of the feature selection tools had any significant effect to the final result. This may be because of the significance of the weights for the smaller features, these insignificant features made little difference to the final models, and therefore feature selection would not modify much. 
+It seems as there was not enough evidence to show that any of the feature selection tools had any significant effect to the final result. This may be because of the significance of the weights for the smaller features, these insignificant features made little difference to the final models, and therefore feature selection would not modify much.
 
 Neural Networks produced the best results, this is because of their robustness with small datasets compared to number of features. Decisions trees require much more samples in order to reduce overfitting.
 
-Overall, because we outperformed our benchmark metric and peformed similarily to the previously mentioned studies, we are justified to call this venture a success. Clearly there is also room for improvement which will only serve to increase predictive ability. 
+Overall, because we outperformed our benchmark metric and peformed similarily to the previously mentioned studies, we are justified to call this venture a success. Clearly there is also room for improvement which will only serve to increase predictive ability.
 
 
 
@@ -1662,12 +1669,12 @@ plt.show()
 
 Looking back at the work done, there are a number of points to take note when discussing obstacles and shortcomings:
 
-- For a project such as this, much time is required to research the relevant features - - there is an endless suply of potential metrics that can be shown to influence football matches. This is a whole project by itself. 
-- In relevent terms, data is scarce, the game of football is everywhere but it changes a lot over time, startegies and factors that are important in a certain generation or a certain region may not be nearly as important in another - these changes are very unpredictable and will serve to reduce the reliability to large samples. 
+- For a project such as this, much time is required to research the relevant features - - there is an endless suply of potential metrics that can be shown to influence football matches. This is a whole project by itself.
+- In relevent terms, data is scarce, the game of football is everywhere but it changes a lot over time, startegies and factors that are important in a certain generation or a certain region may not be nearly as important in another - these changes are very unpredictable and will serve to reduce the reliability to large samples.
 - There are countless different models and algos that can be suitable in a project like this, we must bare in mind that this is only a snippet of what is possible for this problem.
 
-What I found interesting: 
-- Building a database was something was interesting, clearly having the flexibility to query results and create feature list from commands is very powerful. 
+What I found interesting:
+- Building a database was something was interesting, clearly having the flexibility to query results and create feature list from commands is very powerful.
 
 What was difficult:
 - Difficulty was reflecting ML theory to this dataset, deep learning is popular and is thought of as the ubiquitous algorithm set to use for many problems and hence why it was chosen here, however it does beg the question of whether we have not found something better to suit our dataset.
@@ -1703,4 +1710,3 @@ Things to Improve:
 [9] https://towardsdatascience.com/an-approach-to-choosing-the-number-of-components-in-a-principal-component-analysis-pca-3b9f3d6e73fe
 
 [10] http://neuralnetworksanddeeplearning.com/chap2.html
-
