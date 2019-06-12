@@ -1,9 +1,9 @@
 ---
-layout: post
-title: Project
-description: a project with no image
-img:
----
+#layout: post
+#title: Project
+#description: a project with no image
+#img:
+#---
 
 
 # Predicting Premier League match results based on historic data
