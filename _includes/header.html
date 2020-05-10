@@ -1,22 +1,37 @@
-<header class="site-header">
+<!-- Wrapper -->
+<div id="wrapper">
 
-  <div class="wrapper">
+	<header id="header">
+		<div class="inner">
 
-    <nav class="site-nav">
+			<!-- Logo -->
+			<a href="{{ site.baseurl }}/" class="logo">
+				<span class="symbol">
 
-      <div class="trigger">
-        <!-- {{ site.title }} instead of blog -->
-        <a class="page-link" href="{{ site.baseurl }}/">home</a>
+					{% if site.font-awesome-icon-logo %}
 
-        {% for page in site.pages %}
-          {% if page.title %}
-          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-          {% endif %}
-        {% endfor %}
+					<div href="#" class="icon style1 {{ site.font-awesome-icon-logo }}"></div>
 
-      </div>
-    </nav>
+					{% else %}
 
-  </div>
+					<img src="{{ site.baseurl }}/{{ site.logo-image-url }}" alt="" />
 
-</header>
+					{% endif %}
+
+				</span><span class="title">{{ site.title }}</span>
+			</a>
+			<!-- Nav -->
+			<nav>
+				<ul>
+					<li><a href="#menu">Menu</a></li>
+				</ul>
+			</nav>
+
+		</div>
+	</header>
+
+	{% include menu.html %}
+
+	<!-- Main -->
+	<div id="main">
+		<div class="inner">
