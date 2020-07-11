@@ -3,7 +3,7 @@ layout: post
 title: Syntax Highlighting Post
 date: 2013-08-16
 excerpt: "Demo post displaying the various ways of highlighting code in Markdown."
-tags: [sample post, code, highlighting]
+tags: [sample post, code, highlighting, prismjs]
 comments: true
 ---
 
@@ -22,6 +22,12 @@ To modify styling and highlight colors edit `/assets/css/syntax.css`.
     width: 100%;
 }
 {% endhighlight %}
+
+{% highlight q %}
+`time`sym xcol ?[`tab;();0b;()]
+{% endhighlight %}
+
+
 
 {% highlight html %}
 {% raw %}
@@ -113,9 +119,3 @@ module Jekyll
   end
 end
 ~~~
-
-### GitHub Gist Embed
-
-An example of a Gist embed below.
-
-{% gist mmistakes/6589546 %}

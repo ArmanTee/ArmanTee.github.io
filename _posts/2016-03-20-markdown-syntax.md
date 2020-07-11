@@ -14,20 +14,24 @@ comments: true
 
 ## HTML Elements
 
+<nav>
+  <h4>Table of Contents</h4>
+  * this unordered seed list will be replaced by toc as unordered list
+  {:toc}
+</nav>
 Below is just about everything you'll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.
-
+{:.no_toc}
 # Heading 1
-
 ## Heading 2
-
+{:.no_toc}
 ### Heading 3
-
+{:.no_toc}
 #### Heading 4
-
+{:.no_toc}
 ##### Heading 5
-
+{:.no_toc}
 ###### Heading 6
-
+{:.no_toc}
 ### Body text
 
 Lorem ipsum dolor sit amet, test link adipiscing elit. **This is strong**. Nullam dignissim convallis est. Quisque aliquam.
@@ -81,7 +85,8 @@ HTML and CSS are our tools. Mauris a ante. Suspendisse quam sem, consequat at, c
   width: 100%;
 }
 {% endhighlight %}
-
+### other code
+``` code here ```
 ## Buttons
 
 Make any link standout more when applying the `.btn` class.
