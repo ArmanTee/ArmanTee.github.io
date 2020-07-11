@@ -1,26 +1,79 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
+# Site
+title:              Arman
+bio:                'My blog about data science with kdb/q'
+description:        "Welcome to my personal website"
+reading_time:       true
+words_per_minute:   200
+logo:               'assets/img/logoAT.png'
+background:         'assets/img/blur-ed.jpg'
+tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
+locale:             en_UK
+url:                
 
-# Site settings
-title: Arman's Site
-email: arman.tadjrishi@gmail.com
-description: The Jekyll version of the Phantom theme by HTML5 UP.
-baseurl: # the subpath of your site, e.g. /blog
-url: # the base hostname & protocol for your site
-# Logo settings
-logo-image-url: images/arman.jpg
-font-awesome-icon-logo: 
+# Jekyll
+permalink:          /:title/
+markdown:           kramdown
+highlighter:        none
+kramdown:
+  auto_ids:         true
+  footnote_nr:      1
+  entity_output:    as_char
+  toc_levels:       1..6
+  enable_coderay:   false
+  parse_block_html: true
+  syntax_highlighter_opts:
+    disable : true
+mathjax:            true
+sass:
+  sass_dir:         _sass
+  style:            compressed
 
-# Social settings
-github_username: armantee
-linkedin_username: tadjrishi
+# Comments
+disqus_shortname:   taylantatli
 
-# Build settings
-markdown: kramdown
+# Social
+# if you don't have any of social below, comment the line.
+#google:
+  #plus:            #username
+  #analytics:
+  #verify:
+  #ad-client:
+  #ad-slot:
+#bing-verify:
+#email:
+#twitter:            username
+#facebook:           username
+github-url:         armantee
+#stackoverflow:     123456/username   from a "http://stackoverflow.com/users/123456/username" link
+linkedin:          tadjrishi
+#xing:              username
+#instagram:          username
+#lastfm:            username
+#tumblr:            username
+#medium:            '@username'
+#pinterest:         username
+#foursquare:        username
+#steam:              username
+#dribbble:          username
+#youtube:           username
+#youtube-channel:   channel
+#soundcloud:        username
+#weibo:             username
+#flickr:            username
+#codepen:           username
+#keybase:           username
+#xmpp:              username@server.com
+#hackernews:        username
 
-# Layout settings
-home-link-in-menu: yes
+# Gems
+gems:
+  - jekyll-mentions
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-gist
+
+jekyll-mentions:
+    base_url: https://github.com
+
+# Exclude list
+exclude: [README.md, Gemfile, Gemfile.lock, node_modules, gulpfile.js, package.json, _site, src, vendor, CNAME, LICENSE, Rakefile]
