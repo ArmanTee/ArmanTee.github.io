@@ -101,6 +101,16 @@ hr {
 		background-image: -moz-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
 		background-image: -ms-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
 		background-image: -o-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
+  }
+  	&.th-line {
+		border: 0;
+		height: 2px;
+		opacity: .15;
+		margin: 1em 0;
+		background-image: -webkit-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
+		background-image: -moz-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
+		background-image: -ms-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
+		background-image: -o-linear-gradient(left, $color_gallery, $color_stack, $color_gallery);
 	}
 }
 
@@ -205,4 +215,14 @@ kbd {
     text-align: center;
     font-weight: 300;
     margin-bottom: 10px;
+}
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.box div {
+  width: 100px;
+  height: 100px;
 }
