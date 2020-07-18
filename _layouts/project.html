@@ -8,48 +8,72 @@ layout: compress
 <!--[if gt IE 8]><!--> <html class="no-js"><!--<![endif]-->
 <head>
     {% include head.html %}
+    {% include nav.html %}
+
 </head>
 <body>
-    {% include nav.html %}
+    <link rel="stylesheet" href="{{ site.url }}/assets/css/list.css">
     <!-- Header -->
-    <header class="header" role="banner">
-        <div class="wrapper animated">
-            <div class="content">
-                <div class="post-title">
-                    <h1>{{ page.title }}</h1>
-                    <a class="btn zoombtn" href="{{site.url}}">
-                        <i class="fa fa-home"></i>
-                    </a>
+<div class="container">
+                        <div class="post-title">
+                            <h1>{{ page.title }}</h1>
+                            <a class="btn zoombtn" href="{{site.url}}">
+                                <i class="fa fa-home"></i>
+                            </a>
+                        </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+            <hr>
+            {% for post in site.posts %}
+            {% if post.project %}
+            <div class="blog-short">
+                <h3>
+                    {% if post.redirect %}
+                    <a class=" zoombtn" href="{{post.redirect_to | prepend: site.baseurl}}">{{post.title}}</a>
+                    {% else %}
+                    <a class=" zoombtn" href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a>
+                    {% endif %}
+                </h3>
+                <div>
+                    <small>
+                        <i class="fa fa-calendar"></i>
+                        <time>
+                            {{ post.date | date:'%A, %B %d, %Y'}}
+                        </time>
+                    </small>
                 </div>
-                <div class="post-list">
-                    {% for post in site.posts %}
-                        {% if post.project %}
-               
-                <h1>
-                    <ul>
-                        <li class="wow" data-wow-duration="1.5s">
-                            <a class="zoombtn" href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
-                            <p>{{ post.excerpt }}</p>
-                            {% if post.redirect %}
-                            <a href="{{ site.url }}{{ post.redirect_to }}" class="btn zoombtn">View</a>
-                            {% else %}
-                            <a href="{{ site.url }}{{ post.url }}" class="btn zoombtn">View</a>
-                            {% endif %}
-                        </li>
-                    {% if post.feature %}
-                    <img src={{ post.feature }} alt="Simply Easy Learning" style="width:200px;height:200px;float:left;align:left" />
-                    {% endif %}                        
-                    </ul>
-                </h1>
-                    <hr class="th-line">
-                      {% endif %}
-                    {% endfor %}
+                <div class="margin10">
+                    <small>
+                        <i class="fa fa-tag"></i>
+                        {% for tag in post.tags %}
+                        <span class="label label-tag">{{tag}}</span>
+                        {% endfor %}
+                    </small>
                 </div>
+                {% if post.feature %}
+                <div class="imgcontainer col-xs-12 col-sm-4 col-md-3 col-lg-3" style="width:150px" >
+                    <img src="{{post.feature}}" alt="{{post.title}}"
+                        class="pull-left img-responsive thumb img-thumbnail" />
+                </div>
+                {% endif %}
+                <article class="excerpt" style="text-align: left;">
+                    {% if post.redirect %}
+                    <a class="zoombtn" href="{{post.redirect_to | prepend: site.baseurl }}">{{post.excerpt}}</a>
+                    {% else %}
+                    <a class="zoombtn" href="{{post.url | prepend: site.baseurl}}">{{post.excerpt}}</a>
+                    {% endif %} 
+                </article>
             </div>
+            {% endif %}
+            {% endfor %}
+            <hr>
         </div>
-    </header>
+    </div>
+</div>
     {% include scripts.html %}
     <script src="{{ site.url }}/assets/js/wow.min.js"></script>
     <script type="text/javascript">(new WOW).init();</script>
 </body>
 </html>
+
+

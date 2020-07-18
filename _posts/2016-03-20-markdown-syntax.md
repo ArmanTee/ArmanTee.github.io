@@ -10,6 +10,7 @@ tag:
 - test
 - jekyll
 comments: true
+feature: ../assets/img/coat.png
 ---
 
 ## HTML Elements
