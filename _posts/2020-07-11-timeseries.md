@@ -6,5 +6,6 @@ date: 2020-07-11
 project: true
 redirect: true
 redirect_to: ../files/tseries.pdf
-feature: ../assets/img/logoAT.png
+feature: ../assets/img/coat.jpg
+tag: [time-series analysis, chaos theory, non-linear dynamics, project, finance, modelling, R, python]
 ---
