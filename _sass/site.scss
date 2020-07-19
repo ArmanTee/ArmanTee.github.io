@@ -74,11 +74,14 @@ body {
 	max-width: 550px;
 	padding-right: 15px;
 	padding-left: 15px;
+	padding-bottom:10px;
+	padding-top:10px;
+	margin: 4rem auto;
 	@include center-block();
 	background-color: $white;
 	color: $color_shark;
 	z-index: 1;
-	border-radius: 3px;
+	border-radius: 23px;
 	box-shadow: 0 0 10px 0 rgba($color_shark,0.3);
 	@include transition(.5s);
 	@media #{$small} {
@@ -116,25 +119,8 @@ body {
 	    box-shadow: none;
 	}
 }
-.foot {
-	//display: -webkit-box;
+.foot2 {
 	display: -webkit-flex;
-	//display: -ms-flexbox;
-	//display: flex;
-	//-webkit-box-flex: 0;
-	//-webkit-flex: 0 1 auto;
-	//-ms-flex: 0 1 auto;
-	//flex: 0 1 auto;
-	//-webkit-box-orient: horizontal;
-	//-webkit-box-direction: normal;
-	//-webkit-flex-direction: row;
-	//-ms-flex-direction: row;
-	//flex-direction: row;
-	//-webkit-flex-wrap: wrap;
-	//-ms-flex-wrap: wrap;
-	//flex-wrap: wrap;
-	//-webkit-box-align: center;
-	//-webkit-align-items: center;
 	-ms-flex-align: center;
 	align-items: center;
 	margin: -3rem auto 4rem;
@@ -144,17 +130,24 @@ body {
     white-space: nowrap;
     overflow: hidden;
 }
-.foot2 {
-	//display: -webkit-box;
-	// display: -webkit-flex;
-	position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 100;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.foot {
+	width: 25%;
+	min-width:400px ;
+	max-width:400px ;
+	margin: -3rem auto 4rem;
+	background: $white;
+	color: $color_tuatara;
+	//padding: 2em;
+	border-radius: 13px;
+	box-shadow: 0 0 10px 0 rgba($color_shark,0.3);
+	@include transition(.5s);
+	@media #{$small} {
+		width: 90%;
+		padding: 2em 0;
+	    box-shadow: none;
+	}
+	padding-bottom: 10px;
+	padding-left: 15px;
 }
 #disqus_thread {
 	width: 75%;
