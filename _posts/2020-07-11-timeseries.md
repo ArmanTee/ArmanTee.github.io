@@ -7,5 +7,5 @@ project: true
 redirect: true
 redirect_to: ../files/tseries.pdf
 feature: ../assets/img/coat.jpg
-tag: [time-series analysis, chaos theory, non-linear dynamics, project, finance, modelling, R, python]
+tag: [time-series analysis, chaos theory, non-linear dynamics, finance]
 ---

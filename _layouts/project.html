@@ -46,7 +46,7 @@ layout: compress
                     <small>
                         <i class="fa fa-tag"></i>
                         {% for tag in post.tags %}
-                        <span class="label label-tag">{{tag}}</span>
+                        <span class="label label-tag" style="font-family:'Courier New', Courier, monospace;">{{tag}}</span>
                         {% endfor %}
                     </small>
                 </div>
@@ -58,9 +58,9 @@ layout: compress
                 {% endif %}
                 <article class="excerpt" style="text-align: left;">
                     {% if post.redirect %}
-                    <a class="zoombtn" href="{{post.redirect_to | prepend: site.baseurl }}">{{post.excerpt}}</a>
+                    <a class="zoombtn" href="{{post.redirect_to | prepend: site.baseurl }}" style="font-size: 13px;">{{post.excerpt}}</a>
                     {% else %}
-                    <a class="zoombtn" href="{{post.url | prepend: site.baseurl}}">{{post.excerpt}}</a>
+                    <a class="zoombtn" href="{{post.url | prepend: site.baseurl}}" style="font-size: 13px">{{post.excerpt}}</a>
                     {% endif %} 
                 </article>
             </div>
