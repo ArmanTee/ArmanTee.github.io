@@ -158,7 +158,13 @@ a{
 }
 
 .label-tag{
-  background-color: #ff0000;
+    font-size: small;
+    background-color:whitesmoke;
+    border:1px white;
+    border-style: solid;
+    border-radius: 15px;
+    padding: 0px 10px;
+    margin: 0 2px;
 }
 .blog-header{
   background-color: #f8f8f8
@@ -449,7 +455,7 @@ th {
         border-top-color: #000!important
     }
     .label {
-        border: 1px solid #000
+        border: 1px solid #000;
     }
     .table {
         border-collapse: collapse!important
