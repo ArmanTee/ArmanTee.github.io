@@ -1,5 +1,5 @@
 # Site
-title:              Welcome
+title:              Arman
 bio:                'My blog about data science with kdb/q'
 description:        "Welcome to my personal website"
 reading_time:       true
@@ -8,8 +8,7 @@ logo:               'assets/img/logoAT.png'
 background:         'assets/img/blur-ed.jpg'
 tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
 locale:             en_UK
-url:                armantee.github.io
-author:             Arman Tadjrishi
+url:                
 
 # Jekyll
 permalink:          /:title/
@@ -75,6 +74,7 @@ gems:
   - jekyll-seo-tag
 jekyll-mentions:
     base_url: https://github.com
+
 # Exclude list
 exclude: [README.md, Gemfile, Gemfile.lock, node_modules, gulpfile.js, package.json, _site, src, vendor, CNAME, LICENSE, Rakefile]
 include:
