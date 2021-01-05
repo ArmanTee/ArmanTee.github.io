@@ -8,7 +8,6 @@ logo:               'assets/img/logoAT.png'
 background:         'assets/img/blur-ed.jpg'
 tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
 locale:             en_UK
-url:                armantee.github.io
 author:             Arman Tadjrishi
 
 # Jekyll
