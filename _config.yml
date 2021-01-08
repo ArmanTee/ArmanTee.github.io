@@ -1,7 +1,7 @@
 # Site
 title:              Welcome
 bio:                'My blog about data science with kdb/q'
-description:        "Welcome to my personal website"
+description:        "A website showcasing tools,techniques and general learnings from statistics, data science and kdb+"
 reading_time:       true
 words_per_minute:   200
 logo:               'assets/img/logoAT.png'
@@ -68,7 +68,7 @@ linkedin:          tadjrishi
 # Gems
 gems:
   - jekyll-mentions
-  - jekyll-feed
+  - jekyll-feed 
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-seo-tag
