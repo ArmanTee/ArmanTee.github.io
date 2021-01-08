@@ -13,8 +13,6 @@ tag:
 comments: true
 ---
 
-In this blog, we talk about sampling with kdb/q — we demonstrate some code to use to be able to sample from any appropriate uni-variate distribution using various Monte-Carlo methods. All code mentioned here is sourced from this [WIP repo](https://github.com/ArmanTee/monte-qarlo),.
-
 ## 1 Intro
 
 As a language, q is extremely efficient when it comes to working with vector based data structures, and is a natural choice for all sorts of data analysis, generally far-outranking other languages when it comes to speed. Albeit recently the number of available public libraries for kdb has expanded (see [https://github.com/KxSystems](https://github.com/KxSystems)), often end-users find that they must create their own tools to solve their problems. One of these problems is Monte-Carlo integration. 
@@ -130,8 +128,8 @@ t:([] fx:ys;x:xs);
 	.qp.theme[@[.gg.theme.transparent;`marker_default_fill;:;.gg.colour.LightSteelBlue]] 
 	.qp.area[t;`x;`fx;::]
 ```
+{% include info.html content="You can use `.qp.go[length;height]` to plot image directly in Developer."%}
 
-You can use `.qp.go[length;height]` to plot image directly in Developer.
 <p style="text-align: center">
     <img src="{{site.url}}/assets/img/fig1.png"  alt="fig1" style="width:432px">
     <em><strong>Figure 1 - Basic area plot of the described linear function.</strong></em>
@@ -288,9 +286,7 @@ We can also use our samples to roughly estimate other values such as the probabi
 - The probability `p` of outcomes between a range `y` and `z`.
 - Given a probability `p` and starting point `y`, the value closest value to `z`.
 - Given the output of a symmetrical function like the normal PDF, the resulting input `x`.
-
-These following solutions are quick, dirty, inefficient and their accuracy depends on the number of samples provided. There are more efficient analogous solutions for the normal distribution, however using these may be an option when dealing with an unknown distribution.
-
+{% include warning.html content="The following solutions are quick, dirty, inefficient and their accuracy depends on the number of samples provided. There are more efficient analogous solutions for the normal distribution, however using these may be an option when dealing with an unknown distribution."%}
 ```q
 .mc.util.spInt:{(count where x within(y;z))%count[x]}
 
@@ -346,7 +342,7 @@ The intuition behind this is as follows. We have a function $g(x)$ which (after 
 
 Its important to note that the choice envelope function is one that should cover the entire range of possible values of the target distribution. The uniform distribution is often a good choice as it has a very predictable acceptance rate and can be customized to cover the desired distribution. This predictability is important because we can use the information for the total number of samples utilize vector computation in q, instead of having to investigate each individual sample one-by-one.
 
-The drawback comes when drawing from distributions with infinite range, such as the normal distribution, as there is no corresponding $U(-\infin;\infin)$. In these cases we can either approximate with a large tail approximation, or to use an envelop function with infinite support.
+The drawback comes when drawing from distributions with infinite range, such as the normal distribution, as there is no corresponding $U(-\inf,\inf)$. In these cases we can either approximate with a large tail approximation, or to use an envelop function with infinite support.
 
 The below set of function sets up a generalised rejection sampler. 
 
@@ -420,7 +416,7 @@ In rejection sampling, one of the main downfalls is the inefficiency involved wi
 
 Importance Sampling is not sampling as compared to the previous methods. In fact, in Importance Sampling, we are not directly sampling from a target distribution, but instead generating samples from a different distribution and calculates properties for the target distribution based on the samples. In this method, the samples produced are not of interest — only are the properties derived from them.
 
-Note the slight change in the focus below where $h(x)$, a function of the samples, is introduced. This is a feature of importance sampling where we are able to get the properties of functions on the sample. If we want to keep analogous to the previous examples we can simply keep $h(x)=x$.
+{% include important.html content="Note the slight change in the focus below where $h(x)$, a function of the samples, is introduced. This is a feature of importance sampling where we are able to get the properties of functions on the sample. If we want to keep analogous to the previous examples we can simply keep $h(x)=x$."%}
 
 The idea is that we want to find properties of a function $h(x)$ where $x$ is distributed according to our target distribution $f(x)$. We know that
 
