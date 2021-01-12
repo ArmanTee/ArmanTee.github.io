@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Monte-Carlo Methods with KDB Part I: Rejection, Inversion and Importance Sampling"
+title:  "Monte-Carlo Methods with KDB Part I: Rejection, Inversion, and Importance Sampling"
 short: "Monte-Carlo with kdb+ part I"
 date:   2021-01-01
-excerpt: "First in a multi-part series on Markov chain Monte-carlo sampling with q. This blog looks at two basic sampling methods used by modern statistical software to draw samples from basic probability densities. "
+excerpt: "First in a multi-part series on Markov chain Monte-Carlo sampling with q. This blog looks at two basic sampling methods used by modern statistical software to draw samples from basic probability densities. "
 tag:
 - kdb 
 - sampling
@@ -15,9 +15,9 @@ comments: true
 
 ## 1 Intro
 
-As a language, q is extremely efficient when it comes to working with vector based data structures, and is a natural choice for all sorts of data analysis, generally far-outranking other languages when it comes to speed. Albeit recently the number of available public libraries for kdb has expanded (see [https://github.com/KxSystems](https://github.com/KxSystems)), often end-users find that they must create their own tools to solve their problems. One of these problems is Monte-Carlo integration. 
+As a language, q is extremely efficient when it comes to working with vector-based data structures, and is a natural choice for all sorts of data analysis, generally far-outranking other languages when it comes to speed. Albeit recently the number of available public libraries for kdb has expanded (see [https://github.com/KxSystems](https://github.com/KxSystems)), often end-users find that they must create their tools to solve their problems. One of these problems is Monte-Carlo integration. 
 
-Now, we take a look at building out some code to use q to sample from distributions through a number of methods. 
+Now, we take a look at building out some code to use q to sample from distributions through several methods. 
 
 ### Why Sample?
 
@@ -51,7 +51,7 @@ $$\sigma_{x}^2  = \int_{x \in S} (x-\mu_x)^2 \times f(x) dx \approx{\frac{1}{n} 
 
 ### Random Number Generation
 
-In order to use the simulation-based techniques described in this blog, we will need to be able to generate sequences of random numbers from the uniform distribution. To do this in q, we can use the `?[x;y]` overload. Where `x` is the number of samples and `y` is the maximum value of a single sample. A negative `x` is interpreted as *generate a random number without replacement.* The result also depends on the datatype of `y`, i.e
+To use the simulation-based techniques described in this blog, we will need to be able to generate sequences of random numbers from the uniform distribution. To do this in q, we can use the `?[x;y]` overload. Where `x` is the number of samples and `y` is the maximum value of a single sample. A negative `x` is interpreted as *generate a random number without replacement.* The result also depends on the data type of `y`, i.e
 
 ```r
 // Generate 10 longs
@@ -73,9 +73,9 @@ q)-1?10.
 'type
 ```
 
-### Pseudo Random Number Generator (PRNG)
+### Pseudo-Random Number Generator (PRNG)
 
-Along with most other analytics software, q does not generate genuine random numbers. Instead, pseudo-random numbers are generated that appear to be random but are actually deterministic. The implications of this is a topic of it's own, but it's important to understand that we can choose the initial seed via the command line parameter `\S`(https://code.kx.com/q/basics/syscmds/#s-random-seed). This displays or sets the initial seed for the PRNG. Resetting the seed to the default value allows the pseudo-random values to be reproduced, i.e:
+Along with most other analytics software, q does not generate genuine random numbers. Instead, pseudo-random numbers are generated that appear to be random but are actually deterministic. The implication of this is a topic of its own, but it's important to understand that we can choose the initial seed via the command line parameter `\S`(https://code.kx.com/q/basics/syscmds/#s-random-seed). This displays or sets the initial seed for the PRNG. Resetting the seed to the default value allows the pseudo-random values to be reproduced, i.e:
 
 ```q
 
@@ -93,7 +93,7 @@ Generation of random numbers natively in q is limited to the uniform distributio
 
 ## Visualisation Libraries
 
-To recreate the visualisations, and to use the mcplot.q script, we utilise the Kx Developer implementation of 'grammer of graphics' libraries. Functional reference and instructions can be found here: [https://code.kx.com/developer/libraries-setup/](https://code.kx.com/developer/libraries-setup/)
+To recreate the visualisations, and to use the mcplot.q script, we utilise the Kx Developer implementation of 'grammar of graphics' libraries. Functional reference and instructions can be found here: [https://code.kx.com/developer/libraries-setup/](https://code.kx.com/developer/libraries-setup/)
 
 ## 2  Transformation Based Methods
 
@@ -101,7 +101,7 @@ Transformation based sampling are those where we map a uniform random sample int
 
 ### 2.1 Inverse Sampling
 
-The most basic method (but not always easiest to achieve) is inverse sampling, it essentially follows 2 steps:
+The most basic method (but not always the easiest to achieve) is inverse sampling, it essentially follows 2 steps:
 
 1. Draw a uniform random number $u$ between 0 and 1. 
     - $u \sim U(0,1)$
@@ -125,8 +125,8 @@ ys: lin xs;
 t:([] fx:ys;x:xs);
 
 .qp.png[`fig1.png;500;500]
-	.qp.theme[@[.gg.theme.transparent;`marker_default_fill;:;.gg.colour.LightSteelBlue]] 
-	.qp.area[t;`x;`fx;::]
+    .qp.theme[@[.gg.theme.transparent;`marker_default_fill;:;.gg.colour.LightSteelBlue]] 
+    .qp.area[t;`x;`fx;::]
 ```
 {% include info.html content="You can use `.qp.go[length;height]` to plot image directly in Developer."%}
 
@@ -187,7 +187,7 @@ w:0.1;
 </p>
 
 
-From what we can see, the our original function is a good fit for the histogram, however there are more statistically sound methods of determining goodness-of-fit, outside the scope of this blog, such as the [chi-squred test](https://en.wikipedia.org/wiki/Goodness_of_fit#Pearson%27s_chi-squared_test).
+From what we can see, our original function is a good fit for the histogram, however, there are more statistically sound methods of determining goodness-of-fit, outside the scope of this blog, such as the [chi-squred test](https://en.wikipedia.org/wiki/Goodness_of_fit#Pearson%27s_chi-squared_test).
 
 Another example of this is the exponential function, with
 
@@ -217,7 +217,7 @@ invExpF2:invExpF[;2];
 sp:.mc.inv[invExpF2;100000];
 ```
 
-Analytically, it can be shown that the mean and standard deviation of the exponential distribution is $\sigma =\mu = \frac{1}{\lambda}$. We can see that when we inspect the samples, that this matches our expectation.
+Analytically, it can be shown that the mean and standard deviation of the exponential distribution is $\sigma =\mu = \frac{1}{\lambda}$. We can see that when we inspect the samples, this matches our expectations.
 
 ```q
 q)avg sp
@@ -236,7 +236,7 @@ Plotting this, we see that the pdf correctly fits the sample histogram
     <em><strong>Figure 3 - Exponential Density Function fitted on histogram of the samples.</strong></em>
 </p>
 
-We see that the inverse function is trivial to implement in q, and it is very efficient at generating samples - however there are major drawbacks to this method. For one, if the CDF is not analytically solvable, this method cannot be used. For example, the normal distribution cannot be directly solved.The other problem with this is that we require our density to be normlised, unlike what we will see with rejection and importance sampling, this is a strict requirement for inverse sampling.
+We see that the inverse function is trivial to implement in q, and it is very efficient at generating samples - however, there are major drawbacks to this method. For one, if the CDF is not analytically solvable, this method cannot be used. For example, the normal distribution cannot be directly solved. The other problem with this is that we require our density to be normalised, unlike what we will see with rejection and importance sampling, this is a strict requirement for inverse sampling.
 
 ### 2.2 Box-Muller Transform
 
@@ -281,12 +281,12 @@ We see plot and fit the normal distribution to the histogram of the samples:
 
 The Box-Muller method is an efficient way of generating normally distributed samples. As we will further on, generating normally distributed samples will act as a starting point when sampling from other distributions.
 
-We can also use our samples to roughly estimate other values such as the probability between two values, x at a given probability and also the inverse of the PDF. Below are some utility functions that determine:
+We can also use our samples to roughly estimate other values such as the probability between two values, x at a given probability, and also the inverse of the PDF. Below are some utility functions that determine:
 
 - The probability `p` of outcomes between a range `y` and `z`.
 - Given a probability `p` and starting point `y`, the value closest value to `z`.
 - Given the output of a symmetrical function like the normal PDF, the resulting input `x`.
-{% include warning.html content="The following solutions are quick, dirty, inefficient and their accuracy depends on the number of samples provided. There are more efficient analogous solutions for the normal distribution, however using these may be an option when dealing with an unknown distribution."%}
+{% include warning.html content="The following solutions are quick, dirty, inefficient and their accuracy depends on the number of samples provided. There are more efficient analogous solutions for the normal distribution, however, using these may be an option when dealing with an unknown distribution."%}
 ```q
 .mc.util.spInt:{(count where x within(y;z))%count[x]}
 
@@ -325,7 +325,7 @@ q).mc.util.symInv[sp;0.4]
 
 ## 3 Rejection Sampling
 
-Transformation based methods provide efficient ways to sample from distributions that we can analytically derive the generator functions. However as we have seen these basic methods fall short when trying to sample from distributions that cannot be analytically resolved. Rejection sampling provides a powerful (albeit inefficient) way to sample from any distribution.
+Transformation based methods provide efficient ways to sample from distributions that we can analytically derive the generator functions. However, as we have seen these basic methods fall short when trying to sample from distributions that cannot be analytically resolved. Rejection sampling provides a powerful (albeit inefficient) way to sample from any distribution.
 
 Sampling from a distribution $f(x)$ involves three basic steps:
 
@@ -340,9 +340,9 @@ The intuition behind this is as follows. We have a function $g(x)$ which (after 
     <em><strong>Figure 5 - Step through rejection sampling (Scott M. Lynch)</strong></em>
 </p>
 
-Its important to note that the choice envelope function is one that should cover the entire range of possible values of the target distribution. The uniform distribution is often a good choice as it has a very predictable acceptance rate and can be customized to cover the desired distribution. This predictability is important because we can use the information for the total number of samples utilize vector computation in q, instead of having to investigate each individual sample one-by-one.
+It's important to note that the choice envelope function is one that should cover the entire range of possible values of the target distribution. The uniform distribution is often a good choice as it has a very predictable acceptance rate and can be customized to cover the desired distribution. This predictability is important because we can use the information for the total number of samples utilize vector computation in q, instead of having to investigate each sample one-by-one.
 
-The drawback comes when drawing from distributions with infinite range, such as the normal distribution, as there is no corresponding $U(-\inf,\inf)$. In these cases we can either approximate with a large tail approximation, or to use an envelop function with infinite support.
+The drawback comes when drawing from distributions with infinite range, such as the normal distribution, as there is no corresponding $U(-\inf,\inf)$. In these cases, we can either approximate with a large tail approximation or to use an envelope function with infinite support.
 
 The below set of function sets up a generalised rejection sampler. 
 
@@ -388,7 +388,7 @@ q)sdev sp
 1.346187
 ```
 
-The limitation with this routine comes to play with sampling from normal or exponential distribution - we have to set a limit on what can be sampled, which will reduce the accuracy of our estimates. The workaround would be to write ad-hoc rejection code with the desired envelope function. Exponential with 0, 10 start and end point:
+The limitation with this routine comes to play with sampling from normal or exponential distribution - we have to set a limit on what can be sampled, which will reduce the accuracy of our estimates. The workaround would be to write an ad-hoc rejection code with the desired envelope function. Exponential with 0, 10 start and endpoint:
 
 ```q
 q)sp:.mc.rej.sp[expF2;1000000;0;10]
@@ -408,7 +408,7 @@ q)sdev sp
 1.00329
 ```
 
-We see that with some adjustment and understanding of the limitations, we can use rejection sampling to sample from any distribution. Rejection and transformation sampling are basic methods that are often work as the basis for more sophisticated and efficient Monte-Carlo methods. We will see in future series how these make up the foundation of Monte-Carlo Markov Chain algorithms.
+We see that with some adjustment and understanding of the limitations, we can use rejection sampling to sample from any distribution. Rejection and transformation sampling are basic methods that often work as the basis for more sophisticated and efficient Monte-Carlo methods. We will see in future series how these make up the foundation of Monte-Carlo Markov Chain algorithms.
 
 ## 4 Importance Sampling
 
@@ -416,7 +416,7 @@ In rejection sampling, one of the main downfalls is the inefficiency involved wi
 
 Importance Sampling is not sampling as compared to the previous methods. In fact, in Importance Sampling, we are not directly sampling from a target distribution, but instead generating samples from a different distribution and calculates properties for the target distribution based on the samples. In this method, the samples produced are not of interest — only are the properties derived from them.
 
-{% include important.html content="Note the slight change in the focus below where $h(x)$, a function of the samples, is introduced. This is a feature of importance sampling where we are able to get the properties of functions on the sample. If we want to keep analogous to the previous examples we can simply keep $h(x)=x$."%}
+{% include important.html content="Note the slight change in the focus below where $h(x)$, a function of the samples, is introduced. This is a feature of importance sampling where we can get the properties of functions on the sample. If we want to keep analogous to the previous examples we can simply keep $h(x)=x$."%}
 
 The idea is that we want to find properties of a function $h(x)$ where $x$ is distributed according to our target distribution $f(x)$. We know that
 
@@ -445,7 +445,7 @@ In essence, we are taking $x$ generated from $g(x)$ and 'reweighing' them before
 
 $$\mu_n =\frac{\frac{1}{n}\sum_{i=1}^n w_i h(x_i)}{\frac{1}{n} \sum_{i=1}^n w_i}$$
 
-Importance Sampling is often used as a variance reduction method of estimation - this means that the total number of samples required to estimate the mean with small enough variance is less than other Monte-Carlo methods, in addition to the fact that all samples are used in determining the output, makes this a very powerful technique. The fact that we can sample values for a function of $x$ i.e $h(x)$, means that we can calculate more than just the mean. For example the standard deviation is given by:
+Importance Sampling is often used as a variance reduction method of estimation - this means that the total number of samples required to estimate the mean with small enough variance is less than other Monte-Carlo methods, in addition to the fact that all samples are used in determining the output, makes this a very powerful technique. The fact that we can sample values for a function of $x$ i.e $h(x)$, means that we can calculate more than just the mean. For example, the standard deviation is given by:
 
 $$\sigma^2 = \mathbb{E[x^2]} -\mathbb{E[x]}^2 $$
 
@@ -522,13 +522,13 @@ avg  | 4.966861
 sderr| 0.3537732
 ```
 
-We see that even with a 1000 samples, when we choose a better proposal distribution, our output is much more accurate. Importance Sampling can be used to greatly reduce the number of required samples.
+We see that even with 1000 samples when we choose a better proposal distribution, our output is much more accurate. Importance Sampling can be used to greatly reduce the number of required samples.
 
 ## 5 Conclusion
 
-In this blog we laid the foundations for sampling. We looked at transformation methods of sampling, where after an analytical transformation of the distribution. Transformations have strict requirements for being able to analytically derive something from original PDF, in cases where this is impossible we turned to rejection sampling. In theory rejection sampling should be able to sample from any distribution, although it has it's drawbacks, one being the inefficiency in having to reject samples that don't fall within the target distribution. Finally, we looked at importance sampling which alleviated the rejection problem, however this method also came with its own drawback in having to carefully select the best proposal distribution for accurate results.
+In this blog, we laid the foundations for sampling. We looked at transformation methods of sampling, where after an analytical transformation of the distribution. Transformations have strict requirements for being able to analytically derive something from the original PDF, in cases where this is impossible we turned to rejection sampling. In theory, rejection sampling should be able to sample from any distribution, although it has its drawbacks, one being the inefficiency in having to reject samples that don't fall within the target distribution. Finally, we looked at importance sampling which alleviated the rejection problem, however, this method also came with its drawback in having to carefully select the best proposal distribution for accurate results.
 
-This will be one part in a multi-part blog series. In the next iteration we will look to implement Monte-Carlo-Markov-Chain (MCMC) methods in q. These methods utilize the basic sampling methods as the building blocks. 
+This will be one part of a multi-part blog series. In the next iteration, we will look to implement Monte-Carlo-Markov-Chain (MCMC) methods in q. These methods utilize the basic sampling methods as the building blocks. 
 
 ## 6 References
 
@@ -536,4 +536,4 @@ This will be one part in a multi-part blog series. In the next iteration we will
 2. Advanced Statistical Computing (Roger D.  Peng [https://bookdown.org/rdpeng/advstatcomp/](https://bookdown.org/rdpeng/advstatcomp/))
 3. Importance Sampling Introduction [https://towardsdatascience.com/importance-sampling-introduction-e76b2c32e744](https://towardsdatascience.com/importance-sampling-introduction-e76b2c32e744)
 4. Rejection Sampling [https://en.wikipedia.org/wiki/Rejection_sampling](https://en.wikipedia.org/wiki/Rejection_sampling)
-5. Monte Carlo theory, methods and examples (Art Owen, [https://statweb.stanford.edu/~owen/mc/](https://statweb.stanford.edu/~owen/mc/))
+5. Monte Carlo theory, methods, and examples (Art Owen, [https://statweb.stanford.edu/~owen/mc/](https://statweb.stanford.edu/~owen/mc/))
